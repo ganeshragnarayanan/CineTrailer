@@ -43,7 +43,7 @@ public class MovieActivity extends AppCompatActivity {
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("debug", "success");
+                Log.d("debug", "received success");
                 //super.onSuccess(statusCode, headers, response);
                 JSONArray movieJsonResults = null;
 
