@@ -18,7 +18,7 @@
         android:textAppearance="?android:textAppearanceLarge"
         tools:text="Captain America"
         android:id="@+id/tvTitleDetail"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/ivMovieImageDetail"
         android:layout_toRightOf="@+id/ivMovieImageDetail"
         android:layout_toEndOf="@+id/ivMovieImageDetail" />
 

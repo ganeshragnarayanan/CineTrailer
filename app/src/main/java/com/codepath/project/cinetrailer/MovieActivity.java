@@ -48,13 +48,14 @@ public class MovieActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
 
-                Object o = lvItems.getItemAtPosition(position);
+                Movie movie = (Movie) lvItems.getItemAtPosition(position);
                 Log.d("debug", "onItemClick success");
                 Intent i = new Intent(MovieActivity.this, MovieActivityDetail.class);
 
-                i.putExtra("username", "foobar");
-                i.putExtra("in_reply_to", "george");
-                i.putExtra("code", 400);
+                i.putExtra("image_portrait", movie.getPosterPath());
+                i.putExtra("image_landscape", movie.getBackdropPath());
+                i.putExtra("title", movie.getOriginalTitle());
+                i.putExtra("overview", movie.getOverview());
 
                 startActivity(i);
 
