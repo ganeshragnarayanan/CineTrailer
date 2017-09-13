@@ -3,6 +3,8 @@ package com.codepath.project.cinetrailer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.codepath.project.cinetrailer.adapters.MovieArrayAdapter;
@@ -37,6 +39,20 @@ public class MovieActivity extends AppCompatActivity {
         lvItems.setAdapter(movieAdapter);
 
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+
+        //copy(start)
+        lvItems.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()  {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position,
+                                    long id) {
+
+                Object o = lvItems.getItemAtPosition(position);
+                Log.d("debug", "onItemClick success");
+
+            }
+        });
+        //copy(end)
+
 
         //Log.d("debug", "here1");
         AsyncHttpClient client = new AsyncHttpClient();
