@@ -1,5 +1,6 @@
 package com.codepath.project.cinetrailer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class MovieActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,13 @@ public class MovieActivity extends AppCompatActivity {
 
                 Object o = lvItems.getItemAtPosition(position);
                 Log.d("debug", "onItemClick success");
+                Intent i = new Intent(MovieActivity.this, MovieActivityDetail.class);
+
+                i.putExtra("username", "foobar");
+                i.putExtra("in_reply_to", "george");
+                i.putExtra("code", 400);
+
+                startActivity(i);
 
             }
         });
