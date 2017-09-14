@@ -24,9 +24,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+//import android.telecom.Call;
+//import com.squareup.picasso.Request;
 
 //public class MovieActivity extends YouTubeBaseActivity {
 public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
@@ -55,6 +64,10 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
 
+                /** Initializing YouTube player view **/
+                /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivMovieImagePopular);
+                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity);*/
+
                 Movie movie = (Movie) lvItems.getItemAtPosition(position);
                 Log.d("debug", "onItemClick success");
                 Intent i = new Intent(MovieActivity.this, MovieActivityDetail.class);
@@ -71,9 +84,16 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         });
         //copy(end)
 
+        //fetchMovieDataAsyncHttp(url);
+        fetchMovieDataOKHttp(url);
 
+        Log.d("debug", "here2");
+    }
+
+    public void fetchMovieDataAsyncHttp(String url) {
         //Log.d("debug", "here1");
         AsyncHttpClient client = new AsyncHttpClient();
+
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -98,9 +118,59 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
-
-        Log.d("debug", "here2");
     }
+
+    public void fetchMovieDataOKHttp(String url) {
+
+        Log.d("debug", "using OK HTTP");
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String myResponse = response.body().string();
+
+                MovieActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            JSONObject json = new JSONObject(myResponse);
+                            Log.d("debug", "received success");
+                            //super.onSuccess(statusCode, headers, response);
+                            JSONArray movieJsonResults = null;
+
+                            try {
+                                movieJsonResults = json.getJSONArray("results");
+                                //movies = Movie.fromJSONArray(movieJsonResults);
+                                movies.addAll(Movie.fromJSONArray(movieJsonResults));
+                                movieAdapter.notifyDataSetChanged();
+                                Log.d("debug", "success1");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+
+        });
+    }
+
+
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
