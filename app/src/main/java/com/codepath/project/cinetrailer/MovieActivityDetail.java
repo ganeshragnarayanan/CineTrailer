@@ -22,6 +22,7 @@ public class MovieActivityDetail extends AppCompatActivity {
         String image_landscape = intent.getStringExtra("image_landscape");
         String title = intent.getStringExtra("title");
         String overview = intent.getStringExtra("overview");
+        String voteAverage = intent.getStringExtra("vote_average");
 
         // Capture the layout's TextView and set the string as its text
         ImageView ivImage = (ImageView) findViewById(R.id.ivMovieImageDetail);

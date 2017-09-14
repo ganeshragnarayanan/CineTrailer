@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/ivMovieImagePopular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Popular Movie Full Screen" />
+        android:layout_alignParentTop="true"
+        android:maxWidth="@android:dimen/notification_large_icon_width"
+        tools:src="@mipmap/ic_launcher" />
 </RelativeLayout>

@@ -56,6 +56,7 @@ public class MovieActivity extends AppCompatActivity {
                 i.putExtra("image_landscape", movie.getBackdropPath());
                 i.putExtra("title", movie.getOriginalTitle());
                 i.putExtra("overview", movie.getOverview());
+                i.putExtra("vote_average", movie.getVoteAverage());
 
                 startActivity(i);
 
