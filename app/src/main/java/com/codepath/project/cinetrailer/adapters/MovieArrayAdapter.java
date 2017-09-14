@@ -37,8 +37,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the data item for position
         Movie movie = getItem(position);
+        boolean popularMovie = false;
+
         int type = getItemViewType(position);
-        type = 1;
+
+        if (popularMovie(movie)) {
+            popularMovie = true;
+        }
 
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -49,17 +54,15 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
             //convertView = inflater.inflate(R.layout.item_movie, parent, false);
-            convertView = getInflatedLayoutForType(type);
+            convertView = getInflatedLayoutForType(popularMovie);
 
-            if (type == 1) {
+            if (popularMovie) {
+                viewHolder.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImagePopular);
+                convertView.setTag(viewHolder);
+            } else {
                 viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
                 viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
                 viewHolder.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-                convertView.setTag(viewHolder);
-            }
-
-            if (type == 2) {
-                viewHolder.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImagePopular);
                 convertView.setTag(viewHolder);
             }
 
@@ -67,15 +70,17 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        //TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        //TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-        //ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+        if (popularMovie) {
+            viewHolder.ivMovieImage.setImageResource(0);
 
-        //tvTitle.setText(movie.getOriginalTitle());
-        //tvOverview.setText(movie.getOverview());
-        //ivImage.setImageResource(0);
-
-        if (type == 1) {
+            String image;
+            int orientation = parent.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.ivMovieImage);
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.ivMovieImage);
+            }
+        } else {
             viewHolder.tvTitle.setText(movie.getOriginalTitle());
             viewHolder.tvOverview.setText(movie.getOverview());
             viewHolder.ivMovieImage.setImageResource(0);
@@ -89,22 +94,20 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             }
         }
 
-        if (type == 2) {
-            viewHolder.ivMovieImage.setImageResource(0);
-
-            String image;
-            int orientation = parent.getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.ivMovieImage);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.ivMovieImage);
-            }
-        }
-
-
-
-
         return convertView;
+    }
+
+    // check if the input movie is popular
+    private boolean popularMovie(Movie movie) {
+        String voteAverage = movie.getVoteAverage();
+        Log.d("debug", voteAverage);
+        float f = Float.parseFloat(voteAverage);
+
+        if (f > 5.0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // heterogenour start
@@ -126,15 +129,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     }
 
     // Given the item type, responsible for returning the correct inflated XML layout file
-    private View getInflatedLayoutForType(int type) {
-        if (type == 1) {
-            Log.d("debug", "type1");
-            return LayoutInflater.from(getContext()).inflate(R.layout.item_movie, null);
-        } else if (type == 2) {
-            Log.d("debug", "type2");
+    private View getInflatedLayoutForType(boolean popularMovie) {
+        if (popularMovie) {
+            Log.d("debug", "popular movie");
             return LayoutInflater.from(getContext()).inflate(R.layout.item_popular_movie, null);
-        } else {
-            return null;
+        } else  {
+            Log.d("debug", "not popular movie");
+            return LayoutInflater.from(getContext()).inflate(R.layout.item_movie, null);
         }
     }
 
