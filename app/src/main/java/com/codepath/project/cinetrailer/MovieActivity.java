@@ -2,14 +2,21 @@ package com.codepath.project.cinetrailer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.codepath.project.cinetrailer.adapters.MovieArrayAdapter;
 import com.codepath.project.cinetrailer.models.Movie;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
+import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
+import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
+import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -22,7 +29,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 //public class MovieActivity extends YouTubeBaseActivity {
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
@@ -94,6 +101,74 @@ public class MovieActivity extends AppCompatActivity {
 
         Log.d("debug", "here2");
     }
+
+    @Override
+    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+        /** add listeners to YouTubePlayer instance **/
+        player.setPlayerStateChangeListener(playerStateChangeListener);
+        player.setPlaybackEventListener(playbackEventListener);
+
+        /** Start buffering **/
+        if (!wasRestored) {
+            player.cueVideo("ACA_yL0lDA4");
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
+        Toast.makeText(this, "Failured to Initialize!", Toast.LENGTH_LONG).show();
+    }
+
+    private PlaybackEventListener playbackEventListener = new PlaybackEventListener() {
+
+        @Override
+        public void onBuffering(boolean arg0) {
+        }
+
+        @Override
+        public void onPaused() {
+        }
+
+        @Override
+        public void onPlaying() {
+        }
+
+        @Override
+        public void onSeekTo(int arg0) {
+        }
+
+        @Override
+        public void onStopped() {
+        }
+
+    };
+
+    private PlayerStateChangeListener playerStateChangeListener = new PlayerStateChangeListener() {
+
+        @Override
+        public void onAdStarted() {
+        }
+
+        @Override
+        public void onError(ErrorReason arg0) {
+        }
+
+        @Override
+        public void onLoaded(String arg0) {
+        }
+
+        @Override
+        public void onLoading() {
+        }
+
+        @Override
+        public void onVideoEnded() {
+        }
+
+        @Override
+        public void onVideoStarted() {
+        }
+    };
 
 
 }

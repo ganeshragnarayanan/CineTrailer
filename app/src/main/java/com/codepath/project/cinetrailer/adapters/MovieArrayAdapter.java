@@ -38,12 +38,11 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         //get the data item for position
         Movie movie = getItem(position);
         int type = getItemViewType(position);
-        type = 2;
+        type = 1;
 
         ViewHolder viewHolder;
         if (convertView == null) {
 
-            type = 2;
 
             // If there's no view to re-use, inflate a brand new view for row
             viewHolder = new ViewHolder();
