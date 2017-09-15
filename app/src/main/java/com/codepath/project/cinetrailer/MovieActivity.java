@@ -3,6 +3,7 @@ package com.codepath.project.cinetrailer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ import okhttp3.Response;
 //import android.telecom.Call;
 //import com.squareup.picasso.Request;
 
-//public class MovieActivity extends YouTubeBaseActivity {
+//public class MovieActivity extends AppCompatActivity {
 public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
 
     ArrayList<Movie> movies;
@@ -50,6 +51,12 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+
+        //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        //setSupportActionBar(myToolbar);
+        //ActionBar actionBar = getSupportActionBar();
+
+
 
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
@@ -114,6 +121,12 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         fetchMovieDataOKHttp(url);
 
         Log.d("debug", "here2");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        return true;
     }
 
     public void fetchTrailerId(String url) {
