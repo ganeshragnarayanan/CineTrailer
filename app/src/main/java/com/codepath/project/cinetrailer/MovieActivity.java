@@ -89,7 +89,7 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
                     i.putExtra("overview", movie.getOverview());
                     i.putExtra("vote_average", movie.getVoteAverage());
                     i.putExtra("release_date", movie.getReleaseDate());
-                    i.putExtra("id", youtubeTrailerID);
+                    i.putExtra("id", movie.getId());
 
                     startActivity(i);
                 } else {

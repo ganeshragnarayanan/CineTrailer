@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 /**
  * Created by GANESH on 9/12/17.
  */
@@ -96,8 +98,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 int orientation = parent.getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
+                    Picasso.with(getContext()).load(movie.getPosterPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
+
+                    Picasso.with(getContext()).load(movie.getBackdropPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);
 
                     viewHolderPopular.tvTitleLandscape.setText(movie.getOriginalTitle());
                     viewHolderPopular.tvOverviewLandscape.setText(movie.getOverview());
@@ -133,9 +140,11 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 String image;
                 int orientation = parent.getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderNonPopular.ivMovieImage);
+                    Picasso.with(getContext()).load(movie.getPosterPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderNonPopular.ivMovieImage);
+                    Picasso.with(getContext()).load(movie.getBackdropPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);
                 }
 
                 return v;

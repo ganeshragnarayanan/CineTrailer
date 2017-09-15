@@ -52,6 +52,8 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         String releaseDate = intent.getStringExtra("release_date");
         String id = intent.getStringExtra("id");
 
+
+
         // Capture the layout's TextView and set the string as its text
         final ImageView ivImage = (ImageView) findViewById(R.id.ivMovieImageDetail);
 
@@ -77,6 +79,7 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
 
         // fetch trailer id
         String url = "https://api.themoviedb.org/3/movie/" + id + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        Log.d("debug", "going to fetch trailer id, url: " + url);
         fetchTrailerId(url);
 
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
@@ -109,13 +112,16 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("debug", "received success for Trailer id");
+                Log.d("debug", "onSuccess in fetchTrailerId");
                 JSONArray movieJsonResults = null;
 
                 try {
+                    Log.d("debug", "onSuccess in try 1");
                     movieJsonResults = response.getJSONArray("results");
                     JSONObject jsonObject = movieJsonResults.getJSONObject(0);
+                    Log.d("debug", "onSuccess in try 2");
                     youtubeTrailerID = jsonObject.getString("key");
+                    Log.d("debug", "onSuccess in try 3");
                     Log.d("debug trailer id ", youtubeTrailerID);
 
                 } catch (JSONException e) {
