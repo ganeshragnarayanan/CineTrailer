@@ -50,7 +50,7 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         String overview = intent.getStringExtra("overview");
         String voteAverage = intent.getStringExtra("vote_average");
         String releaseDate = intent.getStringExtra("release_date");
-        String id = intent.getStringExtra("id");
+        final String id = intent.getStringExtra("id");
 
 
 
@@ -85,21 +85,22 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
         youTubePlayerView.setVisibility(View.INVISIBLE);
 
-
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
+
+                Intent i = new Intent(MovieActivityDetail.this, YoutubeActivity.class);
+                i.putExtra("id", id);
+                startActivity(i);
+
+                /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
                 youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
 
                 Log.d("debug", "testing youtube");
                 youTubePlayerView.setVisibility(View.VISIBLE);
                 ivImage.setVisibility(View.INVISIBLE);
-                //tvOverview.setVisibility(View.GONE);
-                //textView.setVisibility(View.GONE);
-                //tvRatingBar.setVisibility(View.GONE);
-                //tvReleaseDate.setVisibility(View.GONE);
-                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
+
+                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);*/
             }
         });
 

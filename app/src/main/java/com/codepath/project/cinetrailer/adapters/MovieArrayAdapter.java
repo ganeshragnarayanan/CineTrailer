@@ -96,12 +96,29 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
                 String image;
                 int orientation = parent.getResources().getConfiguration().orientation;
+
+                /*viewHolderPopular.ivMovieImage.setAdjustViewBounds(true);
+                viewHolderPopular.ivMovieImage.setScaleType(ScaleType.FIT_XY);*/
+
+
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
+                    /*Picasso.with(getContext()).load(movie.getPosterPath()).
+                            resize(100, 0).into((ImageView)
+                            viewHolderPopular.ivMovieImage);*/
+
                     Picasso.with(getContext()).load(movie.getPosterPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView)
+                            viewHolderPopular.ivMovieImage);
+
+
+
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
+
+                    /*Picasso.with(getContext()).load(movie.getBackdropPath()).
+                            resize(100, 0).into((ImageView)
+                            viewHolderPopular.ivMovieImage);*/
 
                     Picasso.with(getContext()).load(movie.getBackdropPath())
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);

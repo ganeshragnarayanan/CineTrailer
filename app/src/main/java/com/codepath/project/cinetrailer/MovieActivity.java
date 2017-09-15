@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
 import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -95,13 +93,17 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
                 } else {
                     Log.d("debug", "popular movie click");
 
+                    Intent i = new Intent(MovieActivity.this, YoutubeActivity.class);
+                    i.putExtra("id", movie.getId());
+                    startActivity(i);
+
                     //((YouTubePlayerView)v.findViewById(R.id.ivYoutubePopularMovie)).setVisibility(View.VISIBLE);
 
-                    YouTubePlayerView youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
+                    /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
                     youTubePlayerView.setVisibility(View.VISIBLE);
                     ImageView ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
                     ivMovieImage.setVisibility(View.GONE);
-                    youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity.this);
+                    youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity.this);*/
                 }
 
             }
@@ -241,8 +243,9 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         Log.d("debug", "youtube onInitializationSuccess before if");
         /** Start buffering **/
         if (!wasRestored) {
-            player.cueVideo("ACA_yL0lDA4");
+            //player.cueVideo("ACA_yL0lDA4");
             //player.loadVideo(youtubeTrailerID);
+            player.loadVideo("ACA_yL0lDA4");
             //player.play();
 
         }
