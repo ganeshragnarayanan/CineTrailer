@@ -8,6 +8,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:maxWidth="@android:dimen/notification_large_icon_width"
         tools:src="@mipmap/ic_launcher" />
 </RelativeLayout>

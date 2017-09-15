@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         String title = intent.getStringExtra("title");
         String overview = intent.getStringExtra("overview");
         String voteAverage = intent.getStringExtra("vote_average");
+        String releaseDate = intent.getStringExtra("release_date");
 
         // Capture the layout's TextView and set the string as its text
         final ImageView ivImage = (ImageView) findViewById(R.id.ivMovieImageDetail);
@@ -48,6 +50,12 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
 
         final TextView textView = (TextView) findViewById(R.id.tvTitleDetail);
         textView.setText(title);
+
+        final TextView tvReleaseDate = (TextView) findViewById(R.id.tvReleaseDate);
+        tvReleaseDate.setText("Release Date: " + releaseDate);
+
+        final RatingBar tvRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        tvRatingBar.setRating(Float.parseFloat(voteAverage));
 
         final TextView tvOverview = (TextView) findViewById(R.id.tvOverviewDetail);
         tvOverview.setText(overview);
