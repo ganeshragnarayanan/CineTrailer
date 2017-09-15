@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
 import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -43,13 +45,12 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
+    String youtubeTrailerID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-
-
 
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
@@ -57,6 +58,9 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         lvItems.setAdapter(movieAdapter);
 
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+
+        /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubePopularMovie);
+        youTubePlayerView.setVisibility(View.INVISIBLE);*/
 
         //copy(start)
         lvItems.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()  {
@@ -69,17 +73,35 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
                 youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity);*/
 
                 Movie movie = (Movie) lvItems.getItemAtPosition(position);
-                Log.d("debug", "onItemClick success");
-                Intent i = new Intent(MovieActivity.this, MovieActivityDetail.class);
 
-                i.putExtra("image_portrait", movie.getPosterPath());
-                i.putExtra("image_landscape", movie.getBackdropPath());
-                i.putExtra("title", movie.getOriginalTitle());
-                i.putExtra("overview", movie.getOverview());
-                i.putExtra("vote_average", movie.getVoteAverage());
-                i.putExtra("release_date", movie.getReleaseDate());
+                // fetch trailer id
+                String url = "https://api.themoviedb.org/3/movie/" + movie.getId()+ "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+                fetchTrailerId(url);
 
-                startActivity(i);
+
+                if (!movie.popularMovie(movie)) {
+                    Intent i = new Intent(MovieActivity.this, MovieActivityDetail.class);
+
+                    i.putExtra("image_portrait", movie.getPosterPath());
+                    i.putExtra("image_landscape", movie.getBackdropPath());
+                    i.putExtra("title", movie.getOriginalTitle());
+                    i.putExtra("overview", movie.getOverview());
+                    i.putExtra("vote_average", movie.getVoteAverage());
+                    i.putExtra("release_date", movie.getReleaseDate());
+                    i.putExtra("id", youtubeTrailerID);
+
+                    startActivity(i);
+                } else {
+                    Log.d("debug", "popular movie click");
+
+                    //((YouTubePlayerView)v.findViewById(R.id.ivYoutubePopularMovie)).setVisibility(View.VISIBLE);
+
+                    YouTubePlayerView youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
+                    youTubePlayerView.setVisibility(View.VISIBLE);
+                    ImageView ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
+                    ivMovieImage.setVisibility(View.GONE);
+                    youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity.this);
+                }
 
             }
         });
@@ -89,6 +111,35 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         fetchMovieDataOKHttp(url);
 
         Log.d("debug", "here2");
+    }
+
+    public void fetchTrailerId(String url) {
+        Log.d("debug url ", url);
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("debug", "received success for Trailer id");
+                JSONArray movieJsonResults = null;
+
+                try {
+                    movieJsonResults = response.getJSONArray("results");
+                    JSONObject jsonObject = movieJsonResults.getJSONObject(0);
+                    youtubeTrailerID = jsonObject.getString("key");
+                    Log.d("debug trailer id ", youtubeTrailerID);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
     }
 
     public void fetchMovieDataAsyncHttp(String url) {
@@ -175,14 +226,26 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+        Log.d("debug", "youtube onInitializationSuccess");
         /** add listeners to YouTubePlayer instance **/
+        /*int controlFlags = player.getFullscreenControlFlags();
+        setRequestedOrientation(PORTRAIT_ORIENTATION);
+        controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
+        player.setFullscreenControlFlags(controlFlags);
+        player.setFullscreen(true);*/
+
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
-
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Log.d("debug", "youtube onInitializationSuccess before if");
         /** Start buffering **/
         if (!wasRestored) {
             player.cueVideo("ACA_yL0lDA4");
+            //player.loadVideo(youtubeTrailerID);
+            //player.play();
+
         }
+        //player.play();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.codepath.project.cinetrailer.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,12 +37,17 @@ public class Movie {
         return releaseDate;
     }
 
+    public String getId() {
+        return id;
+    }
+
     String posterPath;
     String backdropPath;
     String originalTitle;
     String overview;
     String voteAverage;
     String releaseDate;
+    String id;
 
     public Movie(JSONObject jsonObject) throws JSONException {
         this.posterPath = jsonObject.getString("poster_path");
@@ -49,6 +56,7 @@ public class Movie {
         this.overview = jsonObject.getString("overview");
         this.voteAverage = jsonObject.getString("vote_average");
         this.releaseDate = jsonObject.getString("release_date");
+        this.id = jsonObject.getString("id");
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray array) {
@@ -62,5 +70,18 @@ public class Movie {
             }
         }
         return results;
+    }
+
+    // check if the input movie is popular
+    public boolean popularMovie(Movie movie) {
+        String voteAverage = movie.getVoteAverage();
+        Log.d("debug", voteAverage);
+        float f = Float.parseFloat(voteAverage);
+
+        if (f > 5.0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

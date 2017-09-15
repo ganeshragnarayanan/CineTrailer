@@ -1,11 +1,12 @@
 package com.codepath.project.cinetrailer;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,9 +20,22 @@ import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+
 public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
+
+    String youtubeTrailerID;
+    private static final int PORTRAIT_ORIENTATION = Build.VERSION.SDK_INT < 9
+            ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +50,7 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         String overview = intent.getStringExtra("overview");
         String voteAverage = intent.getStringExtra("vote_average");
         String releaseDate = intent.getStringExtra("release_date");
+        String id = intent.getStringExtra("id");
 
         // Capture the layout's TextView and set the string as its text
         final ImageView ivImage = (ImageView) findViewById(R.id.ivMovieImageDetail);
@@ -60,48 +75,86 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         final TextView tvOverview = (TextView) findViewById(R.id.tvOverviewDetail);
         tvOverview.setText(overview);
 
+        // fetch trailer id
+        String url = "https://api.themoviedb.org/3/movie/" + id + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        fetchTrailerId(url);
+
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
         youTubePlayerView.setVisibility(View.INVISIBLE);
-        //youTubePlayerView.setOnClickListener(new View.OnClickListener() {
+
+
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
-                //youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
                 youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
 
                 Log.d("debug", "testing youtube");
                 youTubePlayerView.setVisibility(View.VISIBLE);
                 ivImage.setVisibility(View.INVISIBLE);
-                tvOverview.setVisibility(View.GONE);
-                textView.setVisibility(View.GONE);
-                /** Initializing YouTube player view **/
-                //YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
+                //tvOverview.setVisibility(View.GONE);
+                //textView.setVisibility(View.GONE);
+                //tvRatingBar.setVisibility(View.GONE);
+                //tvReleaseDate.setVisibility(View.GONE);
                 youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
             }
         });
 
     }
 
+    public void fetchTrailerId(String url) {
+        Log.d("debug url ", url);
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("debug", "received success for Trailer id");
+                JSONArray movieJsonResults = null;
+
+                try {
+                    movieJsonResults = response.getJSONArray("results");
+                    JSONObject jsonObject = movieJsonResults.getJSONObject(0);
+                    youtubeTrailerID = jsonObject.getString("key");
+                    Log.d("debug trailer id ", youtubeTrailerID);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
 
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
-            /** add listeners to YouTubePlayer instance **/
+        /** add listeners to YouTubePlayer instance **/
+        /*int controlFlags = player.getFullscreenControlFlags();
+        setRequestedOrientation(PORTRAIT_ORIENTATION);
+        controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
+        player.setFullscreenControlFlags(controlFlags);
+        player.setFullscreen(true);*/
+
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /** Start buffering **/
         if (!wasRestored) {
         //player.cueVideo("ACA_yL0lDA4");
-            player.loadVideo("ACA_yL0lDA4");
+            player.loadVideo(youtubeTrailerID);
             //player.play();
 
         }
         //player.play();
 
-        }
+    }
 
     @Override
     public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {

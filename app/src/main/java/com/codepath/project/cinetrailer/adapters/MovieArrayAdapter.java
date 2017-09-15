@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.codepath.project.cinetrailer.R;
 import com.codepath.project.cinetrailer.models.Movie;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,10 +23,16 @@ import java.util.List;
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
-    private static class ViewHolder {
+    static boolean isPopular;
+    private static class ViewHolderNonPopular {
         TextView tvTitle;
         TextView tvOverview;
         ImageView ivMovieImage;
+    }
+
+    private static class ViewHolderPopular {
+        ImageView ivMovieImage;
+        YouTubePlayerView youTubePlayerView;
     }
 
 
@@ -39,62 +46,156 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         Movie movie = getItem(position);
         boolean popularMovie = false;
 
-        int type = getItemViewType(position);
-
         if (popularMovie(movie)) {
             popularMovie = true;
+            isPopular = true;
+        } else {
+            popularMovie = false;
+            isPopular = false;
         }
 
-        ViewHolder viewHolder;
-        if (convertView == null) {
+        int type = this.getItemViewType(position);
 
 
-            // If there's no view to re-use, inflate a brand new view for row
-            viewHolder = new ViewHolder();
+        Log.d("debug type is", Integer.toString(type));
+        Log.d("debug position is", Integer.toString(position));
+        switch (type) {
+            case 0: {
+                View v = convertView;
+                ViewHolderPopular viewHolderPopular;
+                if (v == null) {
+                    Log.d("debug", "case 0 if");
+                    // If there's no view to re-use, inflate a brand new view for row
+                    viewHolderPopular = new ViewHolderPopular();
 
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            //convertView = inflater.inflate(R.layout.item_movie, parent, false);
-            convertView = getInflatedLayoutForType(popularMovie);
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    //convertView = inflater.inflate(R.layout.item_movie, parent, false);
+                    v = getInflatedLayoutForType(popularMovie);
+
+
+                    viewHolderPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
+                    viewHolderPopular.youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
+                    viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
+                    v.setTag(viewHolderPopular);
+
+                } else {
+                    Log.d("debug", "case 0 else");
+                    viewHolderPopular = (ViewHolderPopular) v.getTag();
+                }
+
+                viewHolderPopular.ivMovieImage.setImageResource(0);
+
+                String image;
+                int orientation = parent.getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
+                } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
+                }
+
+                return v;
+            }
+                //break;
+
+
+            case 1: {
+                View v = convertView;
+                ViewHolderNonPopular viewHolderNonPopular;
+                if (v == null) {
+                    Log.d("debug", "case 1 if");
+                    viewHolderNonPopular = new ViewHolderNonPopular();
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    //convertView = inflater.inflate(R.layout.item_movie, parent, false);
+                    v = getInflatedLayoutForType(false);
+                    viewHolderNonPopular.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+                    viewHolderNonPopular.tvOverview = (TextView) v.findViewById(R.id.tvOverview);
+                    viewHolderNonPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImage);
+                    v.setTag(viewHolderNonPopular);
+                } else {
+                    Log.d("debug", "case 1 else");
+                    viewHolderNonPopular = (ViewHolderNonPopular) v.getTag();
+                }
+                viewHolderNonPopular.tvTitle.setText(movie.getOriginalTitle());
+                viewHolderNonPopular.tvOverview.setText(movie.getOverview());
+                viewHolderNonPopular.ivMovieImage.setImageResource(0);
+
+                String image;
+                int orientation = parent.getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderNonPopular.ivMovieImage);
+                } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderNonPopular.ivMovieImage);
+                }
+
+                return v;
+                //break;
+            }
+
+        }
+
+
+        /*if (convertView == null) {
 
             if (popularMovie) {
-                viewHolder.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImagePopular);
-                convertView.setTag(viewHolder);
+                // If there's no view to re-use, inflate a brand new view for row
+                viewHolderPopular = new ViewHolderPopular();
+
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                //convertView = inflater.inflate(R.layout.item_movie, parent, false);
+                convertView = getInflatedLayoutForType(popularMovie);
+
+
+                viewHolderPopular.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImagePopular);
+                viewHolderPopular.youTubePlayerView = (YouTubePlayerView) convertView.findViewById(R.id.ivYoutubePopularMovie);
+                viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
+                convertView.setTag(viewHolderPopular);
+            }
+
+            else {
+                viewHolderNonPopular = new ViewHolderNonPopular();
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                //convertView = inflater.inflate(R.layout.item_movie, parent, false);
+                convertView = getInflatedLayoutForType(!popularMovie);
+                viewHolderNonPopular.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+                viewHolderNonPopular.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
+                viewHolderNonPopular.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+                convertView.setTag(viewHolderNonPopular);
+            }
+
+        } else {
+            if (popularMovie) {
+                viewHolderPopular = (ViewHolderPopular) convertView.getTag();
             } else {
-                viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-                viewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-                viewHolder.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-                convertView.setTag(viewHolder);
+                viewHolderNonPopular = (ViewHolderNonPopular) convertView.getTag();
             }
+        }*/
 
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        if (popularMovie) {
-            viewHolder.ivMovieImage.setImageResource(0);
+        /*if (popularMovie) {
+            viewHolderPopular.ivMovieImage.setImageResource(0);
 
             String image;
             int orientation = parent.getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.ivMovieImage);
+                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.ivMovieImage);
+                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
             }
         } else {
-            viewHolder.tvTitle.setText(movie.getOriginalTitle());
-            viewHolder.tvOverview.setText(movie.getOverview());
-            viewHolder.ivMovieImage.setImageResource(0);
+            viewHolderNonPopular.tvTitle.setText(movie.getOriginalTitle());
+            viewHolderNonPopular.tvOverview.setText(movie.getOverview());
+            viewHolderNonPopular.ivMovieImage.setImageResource(0);
 
             String image;
             int orientation = parent.getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.ivMovieImage);
+                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderNonPopular.ivMovieImage);
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolder.ivMovieImage);
+                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderNonPopular.ivMovieImage);
             }
-        }
+        }*/
 
-        return convertView;
+        //return v;
+        return null;
     }
 
     // check if the input movie is popular
@@ -116,7 +217,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     public int getViewTypeCount() {
         // Returns the number of types of Views that will be created by this adapter
         // Each type represents a set of views that can be converted
-        return 1;
+        return 2;
     }
 
     // Get the type of View that will be created by getView(int, View, ViewGroup)
@@ -125,8 +226,16 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     public int getItemViewType(int position) {
         // Return an integer here representing the type of View.
         // Note: Integers must be in the range 0 to getViewTypeCount() - 1
-        return 1;
+        Movie movie = getItem(position);
+
+        if (popularMovie(movie)) {
+            return 0;
+        } else {
+            return 1;
+        }
+        //return position % 2;
     }
+
 
     // Given the item type, responsible for returning the correct inflated XML layout file
     private View getInflatedLayoutForType(boolean popularMovie) {
