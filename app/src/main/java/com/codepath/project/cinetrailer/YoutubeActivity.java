@@ -1,6 +1,8 @@
 package com.codepath.project.cinetrailer;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,6 +31,9 @@ import okhttp3.Response;
 public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlayer.OnInitializedListener{
 
     String youtubeTrailerID;
+    private static final int PORTRAIT_ORIENTATION = Build.VERSION.SDK_INT < 9
+            ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,8 @@ public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlay
         /*int controlFlags = player.getFullscreenControlFlags();
         setRequestedOrientation(PORTRAIT_ORIENTATION);
         controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
-        player.setFullscreenControlFlags(controlFlags);
-        player.setFullscreen(true);*/
+        player.setFullscreenControlFlags(controlFlags);*/
+        player.setFullscreen(true);
 
         //fetchTrailerId("https://api.themoviedb.org/3/movie/" + "10" + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed");
         Log.d("debug, trailer id = ", youtubeTrailerID);
@@ -61,7 +66,7 @@ public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlay
         if (!wasRestored) {
             Log.d("debug", "playing");
             //player.cueVideo("ACA_yL0lDA4");
-            player.cueVideo(youtubeTrailerID);
+            player.loadVideo(youtubeTrailerID);
             player.play();
 
         }
