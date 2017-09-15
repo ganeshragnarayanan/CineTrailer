@@ -28,7 +28,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
 
@@ -80,10 +87,13 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         // fetch trailer id
         String url = "https://api.themoviedb.org/3/movie/" + id + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
         Log.d("debug", "going to fetch trailer id, url: " + url);
-        fetchTrailerId(url);
+        //fetchTrailerId(url);
+        //ivImage.setVisibility(View.INVISIBLE);
+        //fetchMovieDataOKHttp(url);
 
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
         youTubePlayerView.setVisibility(View.INVISIBLE);
+        youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +148,57 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         });
     }
 
+    public void fetchMovieDataOKHttp(String url) {
+
+        Log.d("debug", "using OK HTTP");
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String myResponse = response.body().string();
+
+                MovieActivityDetail.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            JSONObject json = new JSONObject(myResponse);
+                            Log.d("debug", "received success");
+                            JSONArray movieJsonResults = null;
+
+                            try {
+                                movieJsonResults = json.getJSONArray("results");
+                                JSONObject jsonObject = movieJsonResults.getJSONObject(0);
+                                youtubeTrailerID = jsonObject.getString("key");
+
+                                YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
+                                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+
+        });
+    }
+
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
@@ -148,14 +209,16 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         player.setFullscreenControlFlags(controlFlags);
         player.setFullscreen(true);*/
 
+        Log.d("debug", "on init success");
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
+
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /** Start buffering **/
         if (!wasRestored) {
         //player.cueVideo("ACA_yL0lDA4");
-            player.loadVideo(youtubeTrailerID);
+            player.cueVideo(youtubeTrailerID);
             //player.play();
 
         }
@@ -172,14 +235,19 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
 
         @Override
         public void onBuffering(boolean arg0) {
+            Log.d("debug", "on init success");
         }
 
         @Override
         public void onPaused() {
+            Log.d("debug", "onPaused");
         }
 
         @Override
         public void onPlaying() {
+            Log.d("debug", "onPlaying");
+
+
         }
 
         @Override
@@ -188,6 +256,7 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
 
         @Override
         public void onStopped() {
+            Log.d("debug", "onStopped");
         }
 
         };
@@ -204,6 +273,7 @@ public void onError(ErrorReason arg0) {
 
 @Override
 public void onLoaded(String arg0) {
+    Log.d("debug", "onLoaded");
         }
 
 @Override
