@@ -46,6 +46,7 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
     String youtubeTrailerID;
+    String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
 
-        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
         /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubePopularMovie);
         youTubePlayerView.setVisibility(View.INVISIBLE);*/
@@ -75,7 +76,7 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
                 Movie movie = (Movie) lvItems.getItemAtPosition(position);
 
                 // fetch trailer id
-                String url = "https://api.themoviedb.org/3/movie/" + movie.getId()+ "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+                url = "https://api.themoviedb.org/3/movie/" + movie.getId()+ "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
                 fetchTrailerId(url);
 
 

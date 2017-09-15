@@ -33,6 +33,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     private static class ViewHolderPopular {
         ImageView ivMovieImage;
         YouTubePlayerView youTubePlayerView;
+        TextView tvTitleLandscape;
+        TextView tvOverviewLandscape;
     }
 
 
@@ -76,6 +78,11 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     viewHolderPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
                     viewHolderPopular.youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
                     viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
+
+                    viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
+                    viewHolderPopular.tvOverviewLandscape = (TextView) v.findViewById(R.id.tvOverview);
+
+
                     v.setTag(viewHolderPopular);
 
                 } else {
@@ -91,6 +98,10 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
+
+                    viewHolderPopular.tvTitleLandscape.setText(movie.getOriginalTitle());
+                    viewHolderPopular.tvOverviewLandscape.setText(movie.getOverview());
+
                 }
 
                 return v;
@@ -133,68 +144,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
         }
 
-
-        /*if (convertView == null) {
-
-            if (popularMovie) {
-                // If there's no view to re-use, inflate a brand new view for row
-                viewHolderPopular = new ViewHolderPopular();
-
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                //convertView = inflater.inflate(R.layout.item_movie, parent, false);
-                convertView = getInflatedLayoutForType(popularMovie);
-
-
-                viewHolderPopular.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImagePopular);
-                viewHolderPopular.youTubePlayerView = (YouTubePlayerView) convertView.findViewById(R.id.ivYoutubePopularMovie);
-                viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
-                convertView.setTag(viewHolderPopular);
-            }
-
-            else {
-                viewHolderNonPopular = new ViewHolderNonPopular();
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                //convertView = inflater.inflate(R.layout.item_movie, parent, false);
-                convertView = getInflatedLayoutForType(!popularMovie);
-                viewHolderNonPopular.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-                viewHolderNonPopular.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-                viewHolderNonPopular.ivMovieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-                convertView.setTag(viewHolderNonPopular);
-            }
-
-        } else {
-            if (popularMovie) {
-                viewHolderPopular = (ViewHolderPopular) convertView.getTag();
-            } else {
-                viewHolderNonPopular = (ViewHolderNonPopular) convertView.getTag();
-            }
-        }*/
-
-        /*if (popularMovie) {
-            viewHolderPopular.ivMovieImage.setImageResource(0);
-
-            String image;
-            int orientation = parent.getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
-            }
-        } else {
-            viewHolderNonPopular.tvTitle.setText(movie.getOriginalTitle());
-            viewHolderNonPopular.tvOverview.setText(movie.getOverview());
-            viewHolderNonPopular.ivMovieImage.setImageResource(0);
-
-            String image;
-            int orientation = parent.getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderNonPopular.ivMovieImage);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderNonPopular.ivMovieImage);
-            }
-        }*/
-
-        //return v;
         return null;
     }
 
@@ -233,7 +182,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         } else {
             return 1;
         }
-        //return position % 2;
     }
 
 
