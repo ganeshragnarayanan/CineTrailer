@@ -32,4 +32,12 @@
         android:layout_toRightOf="@+id/ivMovieImagePopular"
         android:layout_toEndOf="@+id/ivMovieImagePopular" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:layout_alignLeft="@+id/ivMovieImagePopular"
+        android:layout_alignRight="@+id/ivMovieImagePopular"
+        android:layout_below="@id/ivMovieImagePopular"/>
+
 </RelativeLayout>

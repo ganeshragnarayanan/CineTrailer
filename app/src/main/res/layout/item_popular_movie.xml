@@ -22,16 +22,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <ImageView
-        android:id="@+id/ivPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="103dp"
-        android:drawSelectorOnTop="true"
-        android:foreground="@drawable/play"
-        android:visibility="visible"
-        app:srcCompat="@drawable/play" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:layout_alignLeft="@+id/ivMovieImagePopular"
+        android:layout_alignRight="@+id/ivMovieImagePopular"
+        android:layout_below="@id/ivMovieImagePopular"/>
 
 </RelativeLayout>

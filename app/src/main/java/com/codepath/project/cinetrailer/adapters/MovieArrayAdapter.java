@@ -91,8 +91,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
                     viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderPopular.tvOverviewLandscape = (TextView) v.findViewById(R.id.tvOverview);
-                    viewHolderPopular.ivPlay = (ImageView) v.findViewById(R.id.ivPlay);
-                    viewHolderPopular.ivPlay.setVisibility(View.VISIBLE);
+                    //viewHolderPopular.ivPlay = (ImageView) v.findViewById(R.id.ivPlay);
+                    //viewHolderPopular.ivPlay.setVisibility(View.VISIBLE);
 
 
                     v.setTag(viewHolderPopular);
@@ -132,7 +132,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     viewHolderPopular.ivMovieImage.setMaxWidth(100);
 
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
+                    //Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
 
                     /*Picasso.with(getContext()).load(movie.getBackdropPath()).
                             resize(100, 0).into((ImageView)
@@ -141,7 +141,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     /*Picasso.with(getContext()).load(movie.getBackdropPath())
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);*/
 
-                    Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
+                    Picasso.with(getContext()).load(movie.getBackdropPath())
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
                             .transform(new RoundedCornersTransformation(10, 10))
@@ -203,7 +203,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     /*Picasso.with(getContext()).load(movie.getBackdropPath())
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);*/
 
-                    Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
+                    Picasso.with(getContext()).load(movie.getBackdropPath())
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
                             .transform(new RoundedCornersTransformation(10, 10))

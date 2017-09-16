@@ -31,4 +31,12 @@
         android:layout_toEndOf="@+id/ivMovieImage"
         android:layout_toRightOf="@id/ivMovieImage"
         tools:text="Following the events of Age of..." />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@android:color/darker_gray"
+        android:layout_alignLeft="@+id/tvOverview"
+        android:layout_alignRight="@+id/tvOverview"
+        android:layout_below="@id/ivMovieImage"/>
 </RelativeLayout>
