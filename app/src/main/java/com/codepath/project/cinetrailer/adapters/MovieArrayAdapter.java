@@ -77,12 +77,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
                     int orientation = parent.getResources().getConfiguration().orientation;
 
-                    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    /*if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                         viewHolderPopular.youTubePlayerView = (YouTubePlayerView)
                                 v.findViewById(R.id.ivYoutubePopularMovie);
                         viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
 
-                    }
+                    }*/
 
                     viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderPopular.tvOverviewLandscape = (TextView)
