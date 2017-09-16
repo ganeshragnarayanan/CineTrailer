@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         android:id="@+id/ivMovieImage"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
