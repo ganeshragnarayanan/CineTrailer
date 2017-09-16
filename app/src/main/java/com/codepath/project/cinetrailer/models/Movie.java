@@ -63,6 +63,7 @@ public class Movie {
         ArrayList<Movie> results = new ArrayList<>();
 
         for (int x=0;x<array.length();x++) {
+        //for (int x=0;x<2;x++) {
             try {
                 results.add(new Movie(array.getJSONObject(x)));
             } catch (JSONException e) {

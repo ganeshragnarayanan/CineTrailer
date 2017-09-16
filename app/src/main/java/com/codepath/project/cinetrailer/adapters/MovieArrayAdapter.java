@@ -78,8 +78,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
 
                     viewHolderPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
-                    viewHolderPopular.youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
-                    viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
+
+                    int orientation = parent.getResources().getConfiguration().orientation;
+
+                    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        viewHolderPopular.youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
+                        viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
+                    }
 
                     viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderPopular.tvOverviewLandscape = (TextView) v.findViewById(R.id.tvOverview);
@@ -111,8 +116,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView)
                             viewHolderPopular.ivMovieImage);
 
-                    Log.d("debug ht", Integer.toString(viewHolderPopular.ivMovieImage.getHeight()));
-                    Log.d("debug width", Integer.toString(viewHolderPopular.ivMovieImage.getWidth()));
 
                     viewHolderPopular.ivMovieImage.setMaxWidth(100);
 
