@@ -2,7 +2,6 @@ package com.codepath.project.cinetrailer.adapters;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         YouTubePlayerView youTubePlayerView;
         TextView tvTitleLandscape;
         TextView tvOverviewLandscape;
-
         ImageView ivPlay;
     }
 
@@ -55,24 +53,20 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
         if (popularMovie(movie)) {
             popularMovie = true;
-            isPopular = true;
+            //isPopular = true;
         } else {
             popularMovie = false;
-            isPopular = false;
+            //isPopular = false;
         }
 
         int type = this.getItemViewType(position);
 
-
-        Log.d("debug type is", Integer.toString(type));
-        Log.d("debug position is", Integer.toString(position));
         switch (type) {
             case 0: {  //popular movie
 
                 View v = convertView;
                 ViewHolderPopular viewHolderPopular;
                 if (v == null) {
-                    Log.d("debug", "case 0 if");
                     // If there's no view to re-use, inflate a brand new view for row
                     viewHolderPopular = new ViewHolderPopular();
 
@@ -96,7 +90,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     v.setTag(viewHolderPopular);
 
                 } else {
-                    Log.d("debug", "case 0 else");
                     viewHolderPopular = (ViewHolderPopular) v.getTag();
                 }
 
@@ -135,7 +128,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 View v = convertView;
                 ViewHolderNonPopular viewHolderNonPopular;
                 if (v == null) {
-                    Log.d("debug", "case 1 if");
                     viewHolderNonPopular = new ViewHolderNonPopular();
                     LayoutInflater inflater = LayoutInflater.from(getContext());
                     v = getInflatedLayoutForType(false);
