@@ -53,10 +53,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
         if (popularMovie(movie)) {
             popularMovie = true;
-            //isPopular = true;
         } else {
             popularMovie = false;
-            //isPopular = false;
         }
 
         int type = this.getItemViewType(position);
