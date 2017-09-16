@@ -1,4 +1,4 @@
-# Project 1 - *Name of App Here*
+# Project 1 - CineTrailer
 
 CineTrailer shows the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
 
@@ -39,7 +39,7 @@ Added a Action bar.
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/a/E8X0F.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://imgur.com/WjDaVqO' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
