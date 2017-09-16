@@ -51,15 +51,11 @@ public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlay
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
         player.setFullscreen(true);
 
-        //fetchTrailerId("https://api.themoviedb.org/3/movie/" + "10" + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed");
-        Log.d("debug, trailer id = ", youtubeTrailerID);
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
 
         /** Start buffering **/
         if (!wasRestored) {
-            Log.d("debug", "playing");
-            //player.cueVideo("ACA_yL0lDA4");
             player.loadVideo(youtubeTrailerID);
             player.play();
 
@@ -124,7 +120,6 @@ public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlay
 
     public void fetchMovieDataOKHttp(String url) {
 
-        Log.d("debug", "using OK HTTP");
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()

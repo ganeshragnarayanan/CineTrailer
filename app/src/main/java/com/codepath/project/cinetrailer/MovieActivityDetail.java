@@ -59,8 +59,6 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         String releaseDate = intent.getStringExtra("release_date");
         final String id = intent.getStringExtra("id");
 
-
-
         // Capture the layout's TextView and set the string as its text
         final ImageView ivImage = (ImageView) findViewById(R.id.ivMovieImageDetail);
 
@@ -217,8 +215,6 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         @Override
         public void onPlaying() {
             Log.d("debug", "onPlaying");
-
-
         }
 
         @Override

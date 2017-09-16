@@ -63,11 +63,13 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
                 Movie movie = (Movie) lvItems.getItemAtPosition(position);
 
-                url = "https://api.themoviedb.org/3/movie/" + movie.getId()+ "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+                url = "https://api.themoviedb.org/3/movie/" + movie.getId()+
+                        "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
                 fetchTrailerId(url);
 
 
                 if (!movie.popularMovie(movie)) {
+                    //start a new activity for not popular movies
                     Intent i = new Intent(MovieActivity.this, MovieActivityDetail.class);
 
                     i.putExtra("image_portrait", movie.getPosterPath());
@@ -80,8 +82,7 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
                     startActivity(i);
                 } else {
-                    Log.d("debug", "popular movie click");
-
+                    // open youtube activity for the trailer
                     Intent i = new Intent(MovieActivity.this, YoutubeActivity.class);
                     i.putExtra("id", movie.getId());
                     startActivity(i);
@@ -106,23 +107,20 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("debug", "received success for Trailer id");
                 JSONArray movieJsonResults = null;
 
                 try {
                     movieJsonResults = response.getJSONArray("results");
                     JSONObject jsonObject = movieJsonResults.getJSONObject(0);
                     youtubeTrailerID = jsonObject.getString("key");
-                    Log.d("debug trailer id ", youtubeTrailerID);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                                  JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
@@ -134,14 +132,12 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("debug", "received success");
                 JSONArray movieJsonResults = null;
 
                 try {
                     movieJsonResults = response.getJSONArray("results");
                     movies.addAll(Movie.fromJSONArray(movieJsonResults));
                     movieAdapter.notifyDataSetChanged();
-                    Log.d("debug", "success1");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -182,12 +178,10 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
                             JSONObject json = new JSONObject(myResponse);
                             Log.d("debug", "received success");
-                            //super.onSuccess(statusCode, headers, response);
                             JSONArray movieJsonResults = null;
 
                             try {
                                 movieJsonResults = json.getJSONArray("results");
-                                //movies = Movie.fromJSONArray(movieJsonResults);
                                 movies.addAll(Movie.fromJSONArray(movieJsonResults));
                                 movieAdapter.notifyDataSetChanged();
                                 Log.d("debug", "success1");
