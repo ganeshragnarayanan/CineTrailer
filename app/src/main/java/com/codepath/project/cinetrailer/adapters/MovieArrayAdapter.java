@@ -37,6 +37,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         YouTubePlayerView youTubePlayerView;
         TextView tvTitleLandscape;
         TextView tvOverviewLandscape;
+
+        ImageView ivPlay;
     }
 
 
@@ -84,10 +86,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                         viewHolderPopular.youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
                         viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
+
                     }
 
                     viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderPopular.tvOverviewLandscape = (TextView) v.findViewById(R.id.tvOverview);
+                    viewHolderPopular.ivPlay = (ImageView) v.findViewById(R.id.ivPlay);
+                    viewHolderPopular.ivPlay.setVisibility(View.VISIBLE);
 
 
                     v.setTag(viewHolderPopular);
@@ -107,17 +112,30 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
 
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
+                    //Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
                     /*Picasso.with(getContext()).load(movie.getPosterPath()).
                             resize(100, 0).into((ImageView)
                             viewHolderPopular.ivMovieImage);*/
 
-                    Picasso.with(getContext()).load(movie.getPosterPath())
+                    Picasso.with(getContext()).load(movie.getPosterPath()).fit().centerCrop()
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.loading)
+                            .transform(new RoundedCornersTransformation(10, 10))
+                            .into((ImageView)
+                                    viewHolderPopular.ivMovieImage);
+
+                    /*Picasso.with(getContext()).load(movie.getPosterPath())
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView)
-                            viewHolderPopular.ivMovieImage);
+                            viewHolderPopular.ivMovieImage);*/
 
 
                     viewHolderPopular.ivMovieImage.setMaxWidth(100);
+
+
+
+
+
+
 
 
 
@@ -128,8 +146,15 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                             resize(100, 0).into((ImageView)
                             viewHolderPopular.ivMovieImage);*/
 
-                    Picasso.with(getContext()).load(movie.getBackdropPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);
+                    /*Picasso.with(getContext()).load(movie.getBackdropPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);*/
+
+                    Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.loading)
+                            .transform(new RoundedCornersTransformation(10, 10))
+                            .into((ImageView)
+                                    viewHolderPopular.ivMovieImage);
 
                     viewHolderPopular.tvTitleLandscape.setText(movie.getOriginalTitle());
                     viewHolderPopular.tvOverviewLandscape.setText(movie.getOverview());
@@ -165,8 +190,15 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 String image;
                 int orientation = parent.getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    Picasso.with(getContext()).load(movie.getPosterPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);
+                    /*Picasso.with(getContext()).load(movie.getPosterPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);*/
+
+                    Picasso.with(getContext()).load(movie.getPosterPath()).fit().centerCrop()
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.loading)
+                            .transform(new RoundedCornersTransformation(10, 10))
+                            .into((ImageView)
+                                    viewHolderNonPopular.ivMovieImage);
 
                     int ht = viewHolderNonPopular.ivMovieImage.getHeight();
                     int width = viewHolderNonPopular.ivMovieImage.getWidth();
@@ -176,8 +208,15 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
 
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    Picasso.with(getContext()).load(movie.getBackdropPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);
+                    /*Picasso.with(getContext()).load(movie.getBackdropPath())
+                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);*/
+
+                    Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.loading)
+                            .transform(new RoundedCornersTransformation(10, 10))
+                            .into((ImageView)
+                                    viewHolderNonPopular.ivMovieImage);
                 }
 
                 return v;
