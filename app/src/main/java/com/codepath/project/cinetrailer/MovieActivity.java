@@ -50,6 +50,7 @@ public class MovieActivity  extends YouTubeBaseActivity  implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
+        
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
