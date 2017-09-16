@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 
 public class Movie {
+
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
@@ -63,7 +64,6 @@ public class Movie {
         ArrayList<Movie> results = new ArrayList<>();
 
         for (int x=0;x<array.length();x++) {
-        //for (int x=0;x<2;x++) {
             try {
                 results.add(new Movie(array.getJSONObject(x)));
             } catch (JSONException e) {

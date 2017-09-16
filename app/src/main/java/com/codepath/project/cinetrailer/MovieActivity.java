@@ -35,9 +35,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-//import android.telecom.Call;
-//import com.squareup.picasso.Request;
-
 //public class MovieActivity extends AppCompatActivity {
 public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
 
@@ -52,12 +49,6 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        //setSupportActionBar(myToolbar);
-        //ActionBar actionBar = getSupportActionBar();
-
-
-
         lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
@@ -65,22 +56,13 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
         url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-        /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubePopularMovie);
-        youTubePlayerView.setVisibility(View.INVISIBLE);*/
-
-        //copy(start)
         lvItems.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()  {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
 
-                /** Initializing YouTube player view **/
-                /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivMovieImagePopular);
-                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity);*/
-
                 Movie movie = (Movie) lvItems.getItemAtPosition(position);
 
-                // fetch trailer id
                 url = "https://api.themoviedb.org/3/movie/" + movie.getId()+ "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
                 fetchTrailerId(url);
 
@@ -103,24 +85,12 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
                     Intent i = new Intent(MovieActivity.this, YoutubeActivity.class);
                     i.putExtra("id", movie.getId());
                     startActivity(i);
-
-                    //((YouTubePlayerView)v.findViewById(R.id.ivYoutubePopularMovie)).setVisibility(View.VISIBLE);
-
-                    /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
-                    youTubePlayerView.setVisibility(View.VISIBLE);
-                    ImageView ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
-                    ivMovieImage.setVisibility(View.GONE);
-                    youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivity.this);*/
                 }
 
             }
         });
-        //copy(end)
 
-        //fetchMovieDataAsyncHttp(url);
         fetchMovieDataOKHttp(url);
-
-        Log.d("debug", "here2");
     }
 
     @Override
@@ -159,19 +129,16 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
     }
 
     public void fetchMovieDataAsyncHttp(String url) {
-        //Log.d("debug", "here1");
         AsyncHttpClient client = new AsyncHttpClient();
 
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("debug", "received success");
-                //super.onSuccess(statusCode, headers, response);
                 JSONArray movieJsonResults = null;
 
                 try {
                     movieJsonResults = response.getJSONArray("results");
-                    //movies = Movie.fromJSONArray(movieJsonResults);
                     movies.addAll(Movie.fromJSONArray(movieJsonResults));
                     movieAdapter.notifyDataSetChanged();
                     Log.d("debug", "success1");
@@ -242,27 +209,14 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
-        Log.d("debug", "youtube onInitializationSuccess");
-        /** add listeners to YouTubePlayer instance **/
-        /*int controlFlags = player.getFullscreenControlFlags();
-        setRequestedOrientation(PORTRAIT_ORIENTATION);
-        controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
-        player.setFullscreenControlFlags(controlFlags);
-        player.setFullscreen(true);*/
-
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Log.d("debug", "youtube onInitializationSuccess before if");
+
         /** Start buffering **/
         if (!wasRestored) {
-            //player.cueVideo("ACA_yL0lDA4");
-            //player.loadVideo(youtubeTrailerID);
             player.loadVideo("ACA_yL0lDA4");
-            //player.play();
-
         }
-        //player.play();
+
     }
 
     @Override

@@ -26,6 +26,7 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
     static boolean isPopular;
+
     private static class ViewHolderNonPopular {
         TextView tvTitle;
         TextView tvOverview;
@@ -66,7 +67,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         Log.d("debug type is", Integer.toString(type));
         Log.d("debug position is", Integer.toString(position));
         switch (type) {
-            case 0: {
+            case 0: {  //popular movie
+
                 View v = convertView;
                 ViewHolderPopular viewHolderPopular;
                 if (v == null) {
@@ -75,7 +77,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     viewHolderPopular = new ViewHolderPopular();
 
                     LayoutInflater inflater = LayoutInflater.from(getContext());
-                    //convertView = inflater.inflate(R.layout.item_movie, parent, false);
                     v = getInflatedLayoutForType(popularMovie);
 
 
@@ -91,9 +92,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
                     viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderPopular.tvOverviewLandscape = (TextView) v.findViewById(R.id.tvOverview);
-                    //viewHolderPopular.ivPlay = (ImageView) v.findViewById(R.id.ivPlay);
-                    //viewHolderPopular.ivPlay.setVisibility(View.VISIBLE);
-
 
                     v.setTag(viewHolderPopular);
 
@@ -107,16 +105,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 String image;
                 int orientation = parent.getResources().getConfiguration().orientation;
 
-                /*viewHolderPopular.ivMovieImage.setAdjustViewBounds(true);
-                viewHolderPopular.ivMovieImage.setScaleType(ScaleType.FIT_XY);*/
-
-
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    //Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolderPopular.ivMovieImage);
-                    /*Picasso.with(getContext()).load(movie.getPosterPath()).
-                            resize(100, 0).into((ImageView)
-                            viewHolderPopular.ivMovieImage);*/
-
                     Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
@@ -124,23 +113,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                             .into((ImageView)
                                     viewHolderPopular.ivMovieImage);
 
-                    /*Picasso.with(getContext()).load(movie.getPosterPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView)
-                            viewHolderPopular.ivMovieImage);*/
-
-
                     viewHolderPopular.ivMovieImage.setMaxWidth(100);
 
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    //Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
-
-                    /*Picasso.with(getContext()).load(movie.getBackdropPath()).
-                            resize(100, 0).into((ImageView)
-                            viewHolderPopular.ivMovieImage);*/
-
-                    /*Picasso.with(getContext()).load(movie.getBackdropPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderPopular.ivMovieImage);*/
-
                     Picasso.with(getContext()).load(movie.getBackdropPath())
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
@@ -155,24 +130,20 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
                 return v;
             }
-                //break;
 
-
-            case 1: {
+            case 1: { // less popular movie
                 View v = convertView;
                 ViewHolderNonPopular viewHolderNonPopular;
                 if (v == null) {
                     Log.d("debug", "case 1 if");
                     viewHolderNonPopular = new ViewHolderNonPopular();
                     LayoutInflater inflater = LayoutInflater.from(getContext());
-                    //convertView = inflater.inflate(R.layout.item_movie, parent, false);
                     v = getInflatedLayoutForType(false);
                     viewHolderNonPopular.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderNonPopular.tvOverview = (TextView) v.findViewById(R.id.tvOverview);
                     viewHolderNonPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImage);
                     v.setTag(viewHolderNonPopular);
                 } else {
-                    Log.d("debug", "case 1 else");
                     viewHolderNonPopular = (ViewHolderNonPopular) v.getTag();
                 }
                 viewHolderNonPopular.tvTitle.setText(movie.getOriginalTitle());
@@ -182,27 +153,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 String image;
                 int orientation = parent.getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    /*Picasso.with(getContext()).load(movie.getPosterPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);*/
-
                     Picasso.with(getContext()).load(movie.getPosterPath()).fit().centerCrop()
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
                             .transform(new RoundedCornersTransformation(10, 10))
                             .into((ImageView)
                                     viewHolderNonPopular.ivMovieImage);
-
-                    int ht = viewHolderNonPopular.ivMovieImage.getHeight();
-                    int width = viewHolderNonPopular.ivMovieImage.getWidth();
-                    //viewHolderNonPopular.ivMovieImage.setAlpha(10);
-
-
-
-
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    /*Picasso.with(getContext()).load(movie.getBackdropPath())
-                            .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);*/
-
                     Picasso.with(getContext()).load(movie.getBackdropPath())
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
@@ -212,7 +169,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 }
 
                 return v;
-                //break;
             }
 
         }
@@ -223,9 +179,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     // check if the input movie is popular
     private boolean popularMovie(Movie movie) {
         String voteAverage = movie.getVoteAverage();
-        Log.d("debug", voteAverage);
         float f = Float.parseFloat(voteAverage);
 
+        // check if the vote average is more than 5
         if (f > 5.0 ) {
             return true;
         } else {
@@ -233,12 +189,10 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
     }
 
-    // heterogenour start
     // Returns the number of types of Views that will be created by getView(int, View, ViewGroup)
+    // we have 2 types - popular and not so popular movies
     @Override
     public int getViewTypeCount() {
-        // Returns the number of types of Views that will be created by this adapter
-        // Each type represents a set of views that can be converted
         return 2;
     }
 
@@ -257,17 +211,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
     }
 
-
     // Given the item type, responsible for returning the correct inflated XML layout file
     private View getInflatedLayoutForType(boolean popularMovie) {
         if (popularMovie) {
-            Log.d("debug", "popular movie");
             return LayoutInflater.from(getContext()).inflate(R.layout.item_popular_movie, null);
         } else  {
-            Log.d("debug", "not popular movie");
             return LayoutInflater.from(getContext()).inflate(R.layout.item_movie, null);
         }
     }
-
-
 }

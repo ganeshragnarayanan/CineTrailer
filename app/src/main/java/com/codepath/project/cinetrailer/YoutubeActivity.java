@@ -49,18 +49,12 @@ public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlay
 
     @Override
     public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
-        /** add listeners to YouTubePlayer instance **/
-        /*int controlFlags = player.getFullscreenControlFlags();
-        setRequestedOrientation(PORTRAIT_ORIENTATION);
-        controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
-        player.setFullscreenControlFlags(controlFlags);*/
         player.setFullscreen(true);
 
         //fetchTrailerId("https://api.themoviedb.org/3/movie/" + "10" + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed");
         Log.d("debug, trailer id = ", youtubeTrailerID);
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /** Start buffering **/
         if (!wasRestored) {
@@ -70,8 +64,6 @@ public class YoutubeActivity extends YouTubeBaseActivity implements  YouTubePlay
             player.play();
 
         }
-        //player.play();
-
     }
 
     @Override
