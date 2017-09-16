@@ -64,7 +64,7 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Picasso.with(this).load(image_portrait).into(ivImage);
+            Picasso.with(this).load(image_landscape).into(ivImage);
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Picasso.with(this).load(image_landscape).into(ivImage);
         }
