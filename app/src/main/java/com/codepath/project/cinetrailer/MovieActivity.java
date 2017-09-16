@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,17 +43,18 @@ public class MovieActivity  extends YouTubeBaseActivity  implements
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
-    ListView lvItems;
+    //ListView lvItems;
     String youtubeTrailerID;
     String url = "";
+
+    @BindView(R.id.lvMovies) ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-
+        ButterKnife.bind(this);
         
-        lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
