@@ -117,7 +117,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                             resize(100, 0).into((ImageView)
                             viewHolderPopular.ivMovieImage);*/
 
-                    Picasso.with(getContext()).load(movie.getPosterPath()).fit().centerCrop()
+                    Picasso.with(getContext()).load(movie.getBackdropPath()).fit().centerCrop()
                             .placeholder(R.drawable.loading)
                             .error(R.drawable.loading)
                             .transform(new RoundedCornersTransformation(10, 10))
@@ -130,14 +130,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
 
                     viewHolderPopular.ivMovieImage.setMaxWidth(100);
-
-
-
-
-
-
-
-
 
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Picasso.with(getContext()).load(movie.getBackdropPath()).into(viewHolderPopular.ivMovieImage);
