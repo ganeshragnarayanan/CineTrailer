@@ -111,6 +111,11 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView)
                             viewHolderPopular.ivMovieImage);
 
+                    Log.d("debug ht", Integer.toString(viewHolderPopular.ivMovieImage.getHeight()));
+                    Log.d("debug width", Integer.toString(viewHolderPopular.ivMovieImage.getWidth()));
+
+                    viewHolderPopular.ivMovieImage.setMaxWidth(100);
+
 
 
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -159,6 +164,14 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     Picasso.with(getContext()).load(movie.getPosterPath())
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);
+
+                    int ht = viewHolderNonPopular.ivMovieImage.getHeight();
+                    int width = viewHolderNonPopular.ivMovieImage.getWidth();
+                    //viewHolderNonPopular.ivMovieImage.setAlpha(10);
+
+
+
+
                 } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Picasso.with(getContext()).load(movie.getBackdropPath())
                             .transform(new RoundedCornersTransformation(10, 10)).into((ImageView) viewHolderNonPopular.ivMovieImage);
