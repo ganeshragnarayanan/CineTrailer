@@ -37,7 +37,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
+public class MovieActivityDetail  extends YouTubeBaseActivity  implements
+        YouTubePlayer.OnInitializedListener {
 
     String youtubeTrailerID;
     private static final int PORTRAIT_ORIENTATION = Build.VERSION.SDK_INT < 9
@@ -82,9 +83,11 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
         final TextView tvOverview = (TextView) findViewById(R.id.tvOverviewDetail);
         tvOverview.setText(overview);
 
-        String url = "https://api.themoviedb.org/3/movie/" + id + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        String url = "https://api.themoviedb.org/3/movie/" + id +
+                "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
+        YouTubePlayerView youTubePlayerView = (YouTubePlayerView)
+                findViewById(R.id.ivYoutubeDetail);
         youTubePlayerView.setVisibility(View.INVISIBLE);
         youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
 
@@ -125,7 +128,8 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                                  JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
@@ -165,8 +169,10 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
                                 JSONObject jsonObject = movieJsonResults.getJSONObject(0);
                                 youtubeTrailerID = jsonObject.getString("key");
 
-                                YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ivYoutubeDetail);
-                                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
+                                YouTubePlayerView youTubePlayerView = (YouTubePlayerView)
+                                        findViewById(R.id.ivYoutubeDetail);
+                                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed",
+                                        MovieActivityDetail.this);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -184,7 +190,8 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements  YouTu
 
 
     @Override
-    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean
+            wasRestored) {
         Log.d("debug", "on init success");
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);

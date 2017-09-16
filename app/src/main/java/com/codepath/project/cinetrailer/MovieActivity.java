@@ -36,7 +36,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 //public class MovieActivity extends AppCompatActivity {
-public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlayer.OnInitializedListener {
+public class MovieActivity  extends YouTubeBaseActivity  implements
+        YouTubePlayer.OnInitializedListener {
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
@@ -145,7 +146,8 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                                  JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
@@ -202,7 +204,8 @@ public class MovieActivity  extends YouTubeBaseActivity  implements  YouTubePlay
 
 
     @Override
-    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+    public void onInitializationSuccess(Provider provider, YouTubePlayer player,
+                                        boolean wasRestored) {
         player.setPlayerStateChangeListener(playerStateChangeListener);
         player.setPlaybackEventListener(playbackEventListener);
 

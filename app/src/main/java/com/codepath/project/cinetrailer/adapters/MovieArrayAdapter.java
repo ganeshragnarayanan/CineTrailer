@@ -72,18 +72,21 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     v = getInflatedLayoutForType(popularMovie);
 
 
-                    viewHolderPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImagePopular);
+                    viewHolderPopular.ivMovieImage = (ImageView)
+                            v.findViewById(R.id.ivMovieImagePopular);
 
                     int orientation = parent.getResources().getConfiguration().orientation;
 
                     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        viewHolderPopular.youTubePlayerView = (YouTubePlayerView) v.findViewById(R.id.ivYoutubePopularMovie);
+                        viewHolderPopular.youTubePlayerView = (YouTubePlayerView)
+                                v.findViewById(R.id.ivYoutubePopularMovie);
                         viewHolderPopular.youTubePlayerView.setVisibility(View.INVISIBLE);
 
                     }
 
                     viewHolderPopular.tvTitleLandscape = (TextView) v.findViewById(R.id.tvTitle);
-                    viewHolderPopular.tvOverviewLandscape = (TextView) v.findViewById(R.id.tvOverview);
+                    viewHolderPopular.tvOverviewLandscape = (TextView)
+                            v.findViewById(R.id.tvOverview);
 
                     v.setTag(viewHolderPopular);
 
@@ -131,7 +134,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     v = getInflatedLayoutForType(false);
                     viewHolderNonPopular.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
                     viewHolderNonPopular.tvOverview = (TextView) v.findViewById(R.id.tvOverview);
-                    viewHolderNonPopular.ivMovieImage = (ImageView) v.findViewById(R.id.ivMovieImage);
+                    viewHolderNonPopular.ivMovieImage = (ImageView)
+                            v.findViewById(R.id.ivMovieImage);
                     v.setTag(viewHolderNonPopular);
                 } else {
                     viewHolderNonPopular = (ViewHolderNonPopular) v.getTag();
