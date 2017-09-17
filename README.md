@@ -39,11 +39,7 @@ Added a Action bar.
 
 Here's a walkthrough of implemented user stories:
 
-https://i.imgur.com/WM5MrQ1.mp4
-
-[![Video Walkthrough]](https://i.imgur.com/WM5MrQ1.mp4)
-
-
+[Link to Video Walkthrough](https://i.imgur.com/WM5MrQ1.mp4)
 
 ## Notes
 
