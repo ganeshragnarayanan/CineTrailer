@@ -11,8 +11,6 @@ import android.widget.ListView;
 
 import com.codepath.project.cinetrailer.adapters.MovieArrayAdapter;
 import com.codepath.project.cinetrailer.models.Movie;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -35,7 +32,6 @@ public class MovieActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
 
-    String youtubeTrailerID;
     String url = "";
 
     @BindView(R.id.lvMovies) ListView lvItems;
@@ -61,8 +57,6 @@ public class MovieActivity extends AppCompatActivity {
 
                 url = "https://api.themoviedb.org/3/movie/" + movie.getId()+
                         "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-                fetchTrailerId(url);
-
 
                 if (!movie.popularMovie(movie)) {
                     //start a new activity for not popular movies
@@ -94,58 +88,6 @@ public class MovieActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         return true;
-    }
-
-    public void fetchTrailerId(String url) {
-        Log.d("debug url ", url);
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        client.get(url, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJsonResults = null;
-
-                try {
-                    movieJsonResults = response.getJSONArray("results");
-                    JSONObject jsonObject = movieJsonResults.getJSONObject(0);
-                    youtubeTrailerID = jsonObject.getString("key");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-                                  JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-    }
-
-    public void fetchMovieDataAsyncHttp(String url) {
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        client.get(url, new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJsonResults = null;
-
-                try {
-                    movieJsonResults = response.getJSONArray("results");
-                    movies.addAll(Movie.fromJSONArray(movieJsonResults));
-                    movieAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-                                  JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
     }
 
     public void fetchMovieDataOKHttp(String url) {
