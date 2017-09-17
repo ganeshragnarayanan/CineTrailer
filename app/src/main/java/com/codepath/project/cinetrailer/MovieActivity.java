@@ -31,8 +31,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MovieActivity extends AppCompatActivity {
-//public class MovieActivity  extends YouTubeBaseActivity  implements
-//        YouTubePlayer.OnInitializedListener {
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;

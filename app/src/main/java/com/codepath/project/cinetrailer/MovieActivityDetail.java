@@ -30,8 +30,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MovieActivityDetail  extends AppCompatActivity {
-//public class MovieActivityDetail  extends YouTubeBaseActivity  implements
-//        YouTubePlayer.OnInitializedListener {
 
     String youtubeTrailerID;
     private static final int PORTRAIT_ORIENTATION = Build.VERSION.SDK_INT < 9
@@ -78,11 +76,6 @@ public class MovieActivityDetail  extends AppCompatActivity {
 
         String url = "https://api.themoviedb.org/3/movie/" + id +
                 "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-
-        /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView)
-                findViewById(R.id.ivYoutubeDetail);
-        youTubePlayerView.setVisibility(View.INVISIBLE);
-        youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);*/
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
