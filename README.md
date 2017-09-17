@@ -39,13 +39,11 @@ Added a Action bar.
 
 Here's a walkthrough of implemented user stories:
 
-[![Video Walkthrough](https://im4.ezgif.com/tmp/ezgif-4-42566346dc.gif)](https://i.imgur.com/WM5MrQ1.mp4)
+https://i.imgur.com/WM5MrQ1.mp4
+
+[![Video Walkthrough]](https://i.imgur.com/WM5MrQ1.mp4)
 
 
-
-<img src='https://im4.ezgif.com/tmp/ezgif-4-42566346dc.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
