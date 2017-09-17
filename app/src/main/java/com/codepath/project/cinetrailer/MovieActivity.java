@@ -34,7 +34,7 @@ public class MovieActivity extends AppCompatActivity {
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
-    //ListView lvItems;
+
     String youtubeTrailerID;
     String url = "";
 
