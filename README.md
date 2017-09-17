@@ -39,10 +39,7 @@ Added a Action bar.
 
 Here's a walkthrough of implemented user stories:
 
-https://i.imgur.com/WM5MrQ1.mp4
-
-
-[![Demo CountPages alpha](https://share.gifyoutube.com/KzB6Gb.gif)](https://i.imgur.com/WM5MrQ1.mp4)
+[![Demo CountPages alpha](https://imgur.com/a/qvXHi)](https://i.imgur.com/WM5MrQ1.mp4)
 
 D
 
