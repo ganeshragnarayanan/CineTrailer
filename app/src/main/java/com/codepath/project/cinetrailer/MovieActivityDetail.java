@@ -5,21 +5,13 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
-import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
-import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
-import com.google.android.youtube.player.YouTubePlayer.Provider;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -37,8 +29,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MovieActivityDetail  extends YouTubeBaseActivity  implements
-        YouTubePlayer.OnInitializedListener {
+public class MovieActivityDetail  extends AppCompatActivity {
+//public class MovieActivityDetail  extends YouTubeBaseActivity  implements
+//        YouTubePlayer.OnInitializedListener {
 
     String youtubeTrailerID;
     private static final int PORTRAIT_ORIENTATION = Build.VERSION.SDK_INT < 9
@@ -86,10 +79,10 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements
         String url = "https://api.themoviedb.org/3/movie/" + id +
                 "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView)
+        /*YouTubePlayerView youTubePlayerView = (YouTubePlayerView)
                 findViewById(R.id.ivYoutubeDetail);
         youTubePlayerView.setVisibility(View.INVISIBLE);
-        youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);
+        youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed", MovieActivityDetail.this);*/
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,17 +103,12 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements
         client.get(url, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("debug", "onSuccess in fetchTrailerId");
                 JSONArray movieJsonResults = null;
 
                 try {
-                    Log.d("debug", "onSuccess in try 1");
                     movieJsonResults = response.getJSONArray("results");
                     JSONObject jsonObject = movieJsonResults.getJSONObject(0);
-                    Log.d("debug", "onSuccess in try 2");
                     youtubeTrailerID = jsonObject.getString("key");
-                    Log.d("debug", "onSuccess in try 3");
-                    Log.d("debug trailer id ", youtubeTrailerID);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -161,19 +149,12 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements
                         try {
 
                             JSONObject json = new JSONObject(myResponse);
-                            Log.d("debug", "received success");
                             JSONArray movieJsonResults = null;
 
                             try {
                                 movieJsonResults = json.getJSONArray("results");
                                 JSONObject jsonObject = movieJsonResults.getJSONObject(0);
                                 youtubeTrailerID = jsonObject.getString("key");
-
-                                YouTubePlayerView youTubePlayerView = (YouTubePlayerView)
-                                        findViewById(R.id.ivYoutubeDetail);
-                                youTubePlayerView.initialize("a07e22bc18f5cb106bfe4cc1f83ad8ed",
-                                        MovieActivityDetail.this);
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -187,79 +168,4 @@ public class MovieActivityDetail  extends YouTubeBaseActivity  implements
 
         });
     }
-
-
-    @Override
-    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean
-            wasRestored) {
-        Log.d("debug", "on init success");
-        player.setPlayerStateChangeListener(playerStateChangeListener);
-        player.setPlaybackEventListener(playbackEventListener);
-
-        /** Start buffering **/
-        if (!wasRestored) {
-            player.cueVideo(youtubeTrailerID);
-        }
-    }
-
-    @Override
-    public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
-        Toast.makeText(this, "Failured to Initialize!", Toast.LENGTH_LONG).show();
-        }
-
-    private PlaybackEventListener playbackEventListener = new PlaybackEventListener() {
-
-        @Override
-        public void onBuffering(boolean arg0) {
-            Log.d("debug", "on init success");
-        }
-
-        @Override
-        public void onPaused() {
-            Log.d("debug", "onPaused");
-        }
-
-        @Override
-        public void onPlaying() {
-            Log.d("debug", "onPlaying");
-        }
-
-        @Override
-        public void onSeekTo(int arg0) {
-        }
-
-        @Override
-        public void onStopped() {
-            Log.d("debug", "onStopped");
-        }
-
-        };
-
-private PlayerStateChangeListener playerStateChangeListener = new PlayerStateChangeListener() {
-
-@Override
-public void onAdStarted() {
-        }
-
-@Override
-public void onError(ErrorReason arg0) {
-        }
-
-@Override
-public void onLoaded(String arg0) {
-    Log.d("debug", "onLoaded");
-        }
-
-@Override
-public void onLoading() {
-        }
-
-@Override
-public void onVideoEnded() {
-        }
-
-@Override
-public void onVideoStarted() {
-        }
-        };
 }
