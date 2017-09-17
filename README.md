@@ -39,11 +39,11 @@ Added a Action bar.
 
 Here's a walkthrough of implemented user stories:
 
-[![Demo CountPages alpha](https://imgur.com/a/qvXHi)](https://i.imgur.com/WM5MrQ1.mp4)
+[![Video Walkthrough](https://im4.ezgif.com/tmp/ezgif-4-42566346dc.gif)](https://i.imgur.com/WM5MrQ1.mp4)
 
-D
 
-<img src='https://imgur.com/a/qvXHi' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+<img src='https://im4.ezgif.com/tmp/ezgif-4-42566346dc.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
